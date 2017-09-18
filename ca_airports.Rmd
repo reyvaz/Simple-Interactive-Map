@@ -1,0 +1,41 @@
+---
+title: "Map of California's Busiest Airports"
+author: ""
+date: ""
+output: 
+  html_document: 
+    theme: cosmo
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+knitr::opts_chunk$set(echo = TRUE, message = F, warning = F)
+```
+
+### California's busiest airports (source: [FAA 2014](https://www.faa.gov/airports/planning_capacity/passenger_allcargo_stats/passenger/media/cy14-commercial-service-enplanements.pdf))
+```{r data, echo = F }
+cair <- read.csv("ca_airports.csv", header = TRUE, sep = ",")
+cair$lng <- -(cair$lng)
+cair$traffic <- format(cair$traffic2014, big.mark=",",scientific=FALSE)
+cair$popup <- paste("Airport Name:", cair[,2], " |  City:", cair[,4], " 
+                    |  IATA:", cair[,3], " |  Traffic:", cair[,9], "passengers")
+```
+<center>
+```{r leafmap, echo = F}
+library(leaflet)
+Cairmap <- cair %>%
+        leaflet() %>%
+        addTiles() %>%
+        addCircles(weight = 1, 
+                   radius = sqrt(cair$traffic2014)*6, 
+                   popup = cair$popup)
+Cairmap
+```
+</center>
+  
+
+
+
+
+
+
