@@ -1,10 +1,3 @@
----
-output: 
-  html_document: 
-    fig_width: 5
-    theme: cosmo
----
-
 ## Simple Interactive Map
 
 Interactive leaflet map showing California's busiest airports. 
